@@ -1,6 +1,7 @@
 "use server"
 
 import { EmailContent, EmailProductInfo, NotificationType } from '@/types';
+import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 const Notification = {
@@ -123,10 +124,31 @@ export const sendEmail = async (emailContent: EmailContent, sendTo: string[]) =>
     html: emailContent.body,
     subject: emailContent.subject,
   }
-
+  await new Promise((resolve, reject) => {
+    // verify connection configuration
+    transporter.verify(function (error, success) {
+        if (error) {
+            console.log(error);
+            reject(error);
+        } else {
+            console.log("Server is ready to take our messages");
+            resolve(success);
+        }
+    });
+});
+ await new Promise((resolve, reject) => {
   transporter.sendMail(mailOptions, (error: any, info: any) => {
-    if (error) return console.log(error);
-    
-    console.log('Email sent: ', info);
-  })
-}
+    if (error) {
+      console.error(error);
+      reject(error);
+  } else {
+      console.log(info);
+      resolve(info);
+  }
+});
+});
+
+return NextResponse.json({
+  message: "Ok",
+});
+};
