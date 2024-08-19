@@ -3,6 +3,7 @@ import { connectToDB } from "@/lib/mongoose";
 import { generateEmailBody, sendEmail } from "@/lib/nodemailer";
 import { fetchProductDetails } from "@/lib/scraper";
 import { getAveragePrice, getEmailNotifType, getHighestPrice, getLowestPrice } from "@/lib/utils";
+import { PriceHistoryItem } from "@/types";
 import { connect } from "http2";
 import { NextResponse } from "next/server";
 
@@ -19,16 +20,18 @@ export async function GET() {
 
                 const updatedPriceHistory = [
                     ...curProduct.priceHistory,
-                    { price: scrapedProduct.currentPrice }
-                  ]
+                    { date: Date.now(), price: scrapedProduct.currentPrice }
+                ]
             //redeclaration to update the product in DB
-                 const product = {
+                const product = {
                     ...scrapedProduct,
-                    priceHistory: updatedPriceHistory,
+                    priceHistory: updatedPriceHistory.map((price) => ({
+                        price: price.price,
+                    })) as PriceHistoryItem[],
                     lowestPrice: getLowestPrice(updatedPriceHistory),
                     highestPrice: getHighestPrice(updatedPriceHistory),
                     averagePrice: getAveragePrice(updatedPriceHistory),
-                  }
+                }
                   const updatedProduct = await Product.findOneAndUpdate(
                     { url: scrapedProduct.url },
                    product,

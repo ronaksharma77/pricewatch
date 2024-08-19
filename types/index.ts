@@ -1,5 +1,4 @@
 export type PriceHistoryItem = {
-    date: any;
     price: number;
   };
   
@@ -15,7 +14,7 @@ export type PriceHistoryItem = {
     title: string;
     currentPrice: number;
     originalPrice: number;
-    priceHistory: PriceHistoryItem[] | [];
+    priceHistory: PriceHistoryItem[];
     highestPrice: number;
     lowestPrice: number;
     averagePrice: number;

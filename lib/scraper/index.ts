@@ -68,7 +68,9 @@ export async function fetchProductDetails(url:string){
       title,
       currentPrice: Number(currentPrice) || Number(originalPrice),
       originalPrice: Number(originalPrice) || Number(currentPrice),
-      priceHistory: [],
+      priceHistory: [{
+        price: Number(currentPrice) || Number(originalPrice)
+      }],
       discountRate: Number(discountRate),
       category: 'other',
       reviewsCount:100,
