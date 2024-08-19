@@ -2,8 +2,9 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { extractCurrency, extractDescription, extractPrice } from '../utils';
-export async function fetchProductDetails(productUrl:string){
-  if(!productUrl) return;
+import { url } from "inspector";
+export async function fetchProductDetails(url:string){
+  if(!url) return;
   //proxy config
 
   //curl --proxy brd.superproxy.io:22225 --proxy-user brd-customer-hl_b24776c9-zone-pricewatch:2eja77ic3xqj -k "https://geo.brdtest.com/welcome.txt"
@@ -23,7 +24,7 @@ export async function fetchProductDetails(productUrl:string){
   }
   try {
     // Fetch the product page
-    const response = await axios.get(productUrl, options);
+    const response = await axios.get(url, options);
     
   //console.log(response);
   const $ = cheerio.load(response.data);
@@ -61,7 +62,7 @@ export async function fetchProductDetails(productUrl:string){
 
     // Construct data object with scraped information
     const data = {
-      productUrl,
+      url,
       currency: currency || '$',
       image: imageUrls[0],
       title,
@@ -69,7 +70,7 @@ export async function fetchProductDetails(productUrl:string){
       originalPrice: Number(originalPrice) || Number(currentPrice),
       priceHistory: [],
       discountRate: Number(discountRate),
-      category: 'category',
+      category: 'other',
       reviewsCount:100,
       stars: 4.5,
       isOutOfStock: outOfStock,

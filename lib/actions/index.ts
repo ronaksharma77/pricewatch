@@ -8,19 +8,19 @@ import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
 import { User } from "@/types";
 import { generateEmailBody, sendEmail } from "../nodemailer";
 
-export async function scrapeAndStoreProduct(productUrl: string) {
-  if(!productUrl) return;
+export async function scrapeAndStoreProduct(url: string) {
+  if(!url) return;
 
   try {
     connectToDB();
 
-    const scrapedProduct = await fetchProductDetails(productUrl);
+    const scrapedProduct = await fetchProductDetails(url);
 
     if(!scrapedProduct) return;
 
     let product = scrapedProduct;
 
-    const existingProduct = await Product.findOne({ url: scrapedProduct.productUrl});
+    const existingProduct = await Product.findOne({ url: scrapedProduct.url});
 
     if(existingProduct) {
       const updatedPriceHistory: any = [
@@ -38,7 +38,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
     }
 
     const newProduct = await Product.findOneAndUpdate(
-      { url: scrapedProduct.productUrl },
+      { url: scrapedProduct.url },
       product,
       { upsert: true, new: true }
     );
@@ -85,7 +85,7 @@ export async function getSimilarProducts(productId: string) {
 
     const similarProducts = await Product.find({
       _id: { $ne: productId },
-    }).limit(3);
+    }).limit(4);
 
     return similarProducts;
   } catch (error) {

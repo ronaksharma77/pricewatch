@@ -21,8 +21,8 @@ const ProductDetails = async ({ params: { id } }: Props) => {
   const similarProducts = await getSimilarProducts(id);
   const truncatedDescription = product.description.split(' ').slice(0, 100).join(' ') + (product.description.split(' ').length > 100 ? '...' : '');
 
-  // Initialize starRatings
-  const starRatings = [
+   // Initialize starRatings
+   const starRatings = [
     { label: "5 star", count: 0 },
     { label: "4 star", count: 0 },
     { label: "3 star", count: 0 },
@@ -30,26 +30,19 @@ const ProductDetails = async ({ params: { id } }: Props) => {
     { label: "1 star", count: 0 }
   ];
 
-  
-  const ratingsData = product.reviewsCount; 
+  // Extracting star ratings from description
+  const starRatingPattern = /(\d+)%/g;
+  const starLabels = ["5 star", "4 star", "3 star", "2 star", "1 star"];
+  let match;
+  let index = 0;
 
-  
-  if (Array.isArray(ratingsData)) {
-    ratingsData.forEach((rating, index) => {
-      if (index < 5) {
-        starRatings[index].count = rating;
-      }
-    });
-  }
-
-  
-  if (typeof ratingsData === 'object' && ratingsData !== null) {
-    Object.keys(ratingsData).forEach((key) => {
-      const ratingIndex = parseInt(key.replace('star', '').trim()) - 1;
-      if (ratingIndex >= 0 && ratingIndex < 5) {
-        starRatings[ratingIndex].count = ratingsData[key];
-      }
-    });
+  // Extracting percentages from description
+  while ((match = starRatingPattern.exec(product.description)) !== null) {
+    if (index < 5) {
+      const percentage = parseInt(match[1], 10);
+      starRatings[index].count = percentage;
+      index++;
+    }
   }
   return (
     <div className="product-container">
@@ -190,39 +183,44 @@ const ProductDetails = async ({ params: { id } }: Props) => {
       </div>
 
       <div className="mt-10">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+          Product Description
+        </h3>
+        <p className="text-sm text-gray-600">
+          {truncatedDescription}
+        </p>
       </div>
 
-      <div className="flex flex-col gap-16">
-        <div className="mt-10">
-          <h3 className="text-xl font-semibold text-secondary mb-4">
-            Product Description
-          </h3>
-          <div className="text-sm text-black">
-            {product?.description?.split('\n').map((line, index) => (
-              <p key={index}>{line}</p>
-            ))}
-          </div>
+      <div className="mt-10">
+        <h3 className="text-center text-xl font-semibold text-gray-800 mb-4">
+          Ratings
+        </h3>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
+          {starRatings.map(rating => (
+            <div key={rating.label} className="flex flex-col items-center p-4 bg-gray-100 rounded-lg shadow-sm">
+              <div className="text-lg font-semibold text-gray-800">
+                {rating.label}
+              </div>
+              <div className="text-xl font-bold text-gray-900">
+                {rating.count}%
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
 
-        <button className="btn w-fit mx-auto flex items-center justify-center gap-3 min-w-[200px]">
-          <Image 
-            src="/assets/icons/bag.svg"
-            alt="check"
-            width={22}
-            height={22}
-          />
-
-          <Link href="/" className="text-base text-white">
-            See More
+      <div className="mt-10 flex justify-center">
+        <button className="btn">
+          <Link href="/" className="text-center">
+            Try More Products
           </Link>
         </button>
       </div>
 
-      {similarProducts && similarProducts?.length > 0 && (
-        <div className="py-14 flex flex-col gap-2 w-full">
-          <p className="section-text">Similar Products</p>
-
-          <div className="flex flex-wrap gap-10 mt-7 w-full">
+      {similarProducts && similarProducts.length > 0 && (
+        <div className="py-14 flex flex-col gap-2">
+          <p className="text-xl font-semibold text-gray-800">Similar Products</p>
+          <div className="flex flex-wrap gap-4 mt-7">
             {similarProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}

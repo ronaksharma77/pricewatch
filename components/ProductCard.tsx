@@ -21,7 +21,6 @@ const ProductCard = ({ product }: Props) => {
           />
         </div>
 
-        {/* Container for category and price connected to the image */}
         <div className="p-4 bg-white">
           <h3 className="product-title text-lg font-semibold truncate">{product.title}</h3>
 
