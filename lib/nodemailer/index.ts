@@ -118,37 +118,30 @@ let transporter = nodemailer.createTransport({
 });
 
 export const sendEmail = async (emailContent: EmailContent, sendTo: string[]) => {
-  const mailOptions = {
-    from: 'ronaksharmaiitg@gmail.com',
-    to: sendTo,
-    html: emailContent.body,
-    subject: emailContent.subject,
-  }
-  await new Promise((resolve, reject) => {
-    // verify connection configuration
-    transporter.verify(function (error, success) {
-        if (error) {
-            console.log(error);
-            reject(error);
-        } else {
-            console.log("Server is ready to take our messages");
-            resolve(success);
-        }
-    });
-});
- await new Promise((resolve, reject) => {
-  transporter.sendMail(mailOptions, (error: any, info: any) => {
-    if (error) {
-      console.error(error);
-      reject(error);
-  } else {
-      console.log(info);
-      resolve(info);
-  }
-});
-});
+  try {
+    // Verify connection configuration
+    await transporter.verify();
+    console.log("Server is ready to take our messages");
 
-return NextResponse.json({
-  message: "Ok",
-});
+    // Send email
+    const info = await transporter.sendMail({
+      from: 'ronaksharmaiitg@gmail.com',
+      to: sendTo,
+      html: emailContent.body,
+      subject: emailContent.subject,
+    });
+
+    console.log(info);
+
+    // DB entry logic (place it here if you want it to happen after sending the email)
+    // await yourDatabaseFunction();
+
+    return NextResponse.json({ message: "Ok" });
+
+  } catch (error : any) {
+    console.error("Error sending email:", error);
+
+    // Optionally return an error response
+    return NextResponse.json({ message: "Error", error: error.message });
+  }
 };
