@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+<img src="https://i.ibb.co/F8TRyCn/logo.png" alt="logo" border="0" width="136.8">
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Pricewatch is a web application built with Next.js that helps users track product prices and receive notifications for price drops or restocks. It offers a user-friendly interface for monitoring product price history and managing alerts.
+
+## Features
+
+* Real-time price tracking for products
+* Price drop notifications
+* Restock alerts
+* Intuitive user interface
+
+## Technologies Used
+
+* **Frontend:** Next.js, Tailwind CSS
+* **Backend:** Next.js, Mongoose (for MongoDB)
+* **Data Scraping:** Custom scraper (lib/scraper.js)
+* **Notifications:** email notifications (lib/nodemailer/)
+* **ScrapingService:** BrightData
+* **CronJobService:** cron-job.org
+
+## Project Structure
+```
+├── app
+│   ├── api(for cron job)
+│   ├── globals.css
+│   ├── page.tsx
+│   ├── favicon.ico
+│   ├── layout.tsx
+│   └── products(page.tsx)
+├── components
+│   ├── HeroCarousel.tsx
+│   ├── PriceInfoCard.tsx
+│   ├── chartModal.tsx
+│   ├── Modal.tsx
+│   ├── ProductCard.tsx
+│   ├── Navbar.tsx
+│   └── Searchbar.tsx
+├── lib
+│   ├── actions(server index.ts)
+│   ├── mongoose.ts
+│   ├── scraper(index.js)
+│   ├── models(product.model.ts)
+│   ├── nodemailer(index.ts)
+│   └── utils.ts
+├── node_modules
+│   └── many files
+├── public
+│   ├── assets(icons)
+│   ├── next.svg
+│   └── vercel.svg
+├── types
+│   └── index.ts
+├── package-lock.json
+├── package.json
+├── tailwind.config.ts
+├── next-env.d.ts
+├── tsconfig.json
+├── next.config.js
+└── postcss.config.mjs
+
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Prerequisites:** Next.js, npm
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone the repository: `git clone https://github.com/ronaksharma77/pricewatch.git`
+2. Navigate to the project directory: `cd pricewatch`
+3. Install dependencies: `npm install`
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. Start development server: `npm run dev` or `yarn dev`
+2. Create an account (if applicable)
+3. Track products using the search bar or browsing features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Page pictures
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Home Page](public/assets/images/home.png)
+*Home Page*
 
-## Deploy on Vercel
+![Explore Page](public/assets/images/explore.png)
+*Explore Page*
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Product Page](public/assets/images/product.png)
+*Product Page*
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Price Graph Page](public/assets/images/pricegraph.png)
+*Price Graph Page*
+
+![Mail Page](public/assets/images/mail.png)
+*Mail Page*
+
+![Rating Page](public/assets/images/ratingandsimilar.png)
+*Rating Page*
+
+## Contact
+
+- **GitHub:** [ronaksharma77](https://github.com/ronaksharma77)
+- **Email:** ronaksharma.rk77@gmail.com
+
+
