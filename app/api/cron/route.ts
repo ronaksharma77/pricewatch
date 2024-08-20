@@ -73,7 +73,7 @@ export async function GET() {
 
         return NextResponse.json({
             message: "Ok",
-            data: updatedProducts.filter(Boolean), // Filter out any null entries
+            data: updatedProducts,
         });
     } catch (error: any) {
         console.error(`Error during GET /api/cron: ${error.message}`);
