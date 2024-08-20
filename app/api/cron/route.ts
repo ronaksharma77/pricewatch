@@ -73,7 +73,6 @@ export async function GET() {
 
         return NextResponse.json({
             message: "Ok",
-            data: updatedProducts,
         });
     } catch (error: any) {
         console.error(`Error during GET /api/cron: ${error.message}`);
