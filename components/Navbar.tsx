@@ -14,10 +14,10 @@ const Navbar = () => {
         <div className="hidden md:flex md:w-auto">
           <ul className="flex space-x-8 text-black">
             <li>
-              <a href="#" className="hover:text-blue-500">About</a>
+              <a href="https://github.com/ronaksharma77/pricewatch" className="hover:text-blue-500">About</a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-500">Contact</a>
+              <a href="https://github.com/ronaksharma77" className="hover:text-blue-500">Contact</a>
             </li>
           </ul>
         </div>
