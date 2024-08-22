@@ -9,6 +9,7 @@ export async function GET() {
     try {
         await connectToDB();
         const products = await Product.find();
+        console.log(products);
         if (!products || products.length === 0) throw new Error("No products found");
 
         const updatedProducts = await Promise.all(
@@ -73,6 +74,7 @@ export async function GET() {
 
         return NextResponse.json({
             message: "Ok",
+            data: updatedProducts
         });
     } catch (error: any) {
         console.error(`Error during GET /api/cron: ${error.message}`);

@@ -9,7 +9,7 @@ interface Props {
 
 const ProductCard = ({ product }: Props) => {
   return (
-    <Link href={`/products/${product._id}`} className="inline-block product-card group">
+    <Link href={`/products/${product._id}`} className="product-card group">
       <div className="border border-gray-200 rounded-lg overflow-hidden shadow-lg group-hover:shadow-xl">
         <div className="product-card_img-container">
           <img
