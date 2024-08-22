@@ -67,14 +67,13 @@ export async function GET() {
                     const userEmails = updatedProduct.users.map((user: any) => user.email);
                     await sendEmail(emailContent, userEmails);
                 }
-
+                console.log(updatedProducts);
                 return updatedProduct;
             })
         );
 
         return NextResponse.json({
-            message: "Ok",
-            data: updatedProducts
+            message: "Ok"
         });
     } catch (error: any) {
         console.error(`Error during GET /api/cron: ${error.message}`);
