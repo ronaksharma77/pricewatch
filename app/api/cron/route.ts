@@ -9,7 +9,6 @@ export async function GET() {
     try {
         await connectToDB();
         const products = await Product.find();
-        console.log(products);
         if (!products || products.length === 0) throw new Error("No products found");
 
         const updatedProducts = await Promise.all(
