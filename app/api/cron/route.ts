@@ -66,13 +66,14 @@ export async function GET() {
                     const userEmails = updatedProduct.users.map((user: any) => user.email);
                     await sendEmail(emailContent, userEmails);
                 }
+
                 return updatedProduct;
             })
         );
 
         return NextResponse.json({
             message: "Ok",
-            data:updatedProducts,
+            data: updatedProducts.filter(Boolean)
         });
     } catch (error: any) {
         console.error(`Error during GET /api/cron: ${error.message}`);
